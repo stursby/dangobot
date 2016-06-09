@@ -4,14 +4,13 @@
  * Config
  */
 
-require('dotenv').config()
+require('dotenv').config({silent: true})
 const axios = require('axios')
 const _ = require('lodash')
 const Botkit = require('botkit')
 const controller = Botkit.slackbot()
 
 const DANGO_API = 'http://emoji.getdango.com/api/emoji?q='
-const REPLY_LENGTH = 4
 
 
 /**
@@ -40,7 +39,7 @@ controller.on('direct_message, direct_mention, mention', (bot, message) => {
     let query = encodeURIComponent(input)
     axios.get(`${DANGO_API}${query}`)
       .then((res) => {
-        let reply = _.map(res.data.results, 'text').slice(0, REPLY_LENGTH).join(' ')
+        let reply = _.map(res.data.results, 'text').slice(0, input.length).join(' ')
         bot.reply(message, reply)
       })
       .catch((err) => {
