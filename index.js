@@ -37,9 +37,10 @@ controller.on('direct_message, direct_mention, mention', (bot, message) => {
   let input = message.text
   if (input.length > 1) {
     let query = encodeURIComponent(input)
+    let count = input.split(' ').length
     axios.get(`${DANGO_API}${query}`)
       .then((res) => {
-        let reply = _.map(res.data.results, 'text').slice(0, input.length).join(' ')
+        let reply = _.map(res.data.results, 'text').slice(0, count).join(' ')
         bot.reply(message, reply)
       })
       .catch((err) => {
