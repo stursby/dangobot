@@ -1,0 +1,24 @@
+{
+  "name": "dangobot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stursby/dangobot.git"
+  },
+  "keywords": [],
+  "author": "Charlie Hield",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stursby/dangobot/issues"
+  },
+  "homepage": "https://github.com/stursby/dangobot#readme",
+  "dependencies": {
+    "botkit": "^0.2.0",
+    "dotenv": "^2.0.0"
+  }
+}
