@@ -1,11 +1,17 @@
+'use strict'
+
 /**
  * Config
  */
 
 require('dotenv').config()
+const axios = require('axios')
+const _ = require('lodash')
 const Botkit = require('botkit')
 const controller = Botkit.slackbot()
 
+const DANGO_API = 'http://emoji.getdango.com/api/emoji?q='
+const REPLY_LENGTH = 4
 
 
 /**
@@ -28,6 +34,19 @@ bot.startRTM((err, bot, payload) => {
  * Listeners
  */
 
-controller.hears(['hello', 'hey', 'hi'], 'direct_message, direct_mention, mention', (bot, message) => {
-  bot.reply(message, 'Hello, I’m dango.')
+controller.on('direct_message, direct_mention, mention', (bot, message) => {
+  let input = message.text
+  if (input.length > 1) {
+    let query = encodeURIComponent(input)
+    axios.get(`${DANGO_API}${query}`)
+      .then((res) => {
+        let reply = _.map(res.data.results, 'text').slice(0, REPLY_LENGTH).join(' ')
+        bot.reply(message, reply)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  } else {
+    bot.reply(message, 'Hey! Send me some text to convert...')
+  }
 })
